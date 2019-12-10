@@ -73,7 +73,7 @@ type ContainerInfo struct {
 
 #### 运行 conveyor
 
-容器启动的时候会优先读取 /etc/filebeat/filebeat.yaml 和 /etc/filebeat/configs/config.tmpl 两个配置文件，不存在则使用默认配置。`${your_var}` 均为可选参数，非必须。
+容器启动的时候会优先读取 /etc/filebeat/filebeat.yaml 和 /etc/filebeat/configs/config.tmpl 两个配置文件，不存在则使用默认配置。`${your_varname}` 均为可选参数，非必须。
 ```shell
 $ docker run -d --restart=always --name conveyor \ 
    -v /var/run/docker.sock:/var/run/docker.sock
@@ -125,10 +125,10 @@ $ docker run -d -e CONVEYOR_ENABLED=true -e CONVEYOR_PATH="stdout" --name ngx ng
 
 容器环境变量
 
-* CONVEYOR_NAME: conveyor 实例名称。默认为 ""
-* CONVEYOR_ENABLED: 是否开启日志追踪，"true" 时开启。默认为 "" 
-* CONVEYOR_FILED: filebeat.inputs.fields 字段，支持 `,` 分割，如 CONVEYOR_FILED="app=nginx,env=dev"。默认为 "" 
-* CONVEYOR_PATH: 用户自定义追踪日志路径，支持 `;` 分割，"stdout" 代表采集容器的标准输出。同时也支持指定索引（仅适用于 ES 输出端），索引以 `:` 分割，`CONVEYOR_PATH="tmp-index:/tmp/logs/*.log;stdout-index:stdout"` 表示讲追踪标准日志输出以及 `/tmp/logs/*.log` 路径下的日志，前者在 ES 中的前缀为 `tmp-index` 后者为 `stdout-index`。
+* `CONVEYOR_NAME`: conveyor 实例名称。默认为 ""
+* `CONVEYOR_ENABLED`: 是否开启日志追踪，"true" 时开启。默认为 "" 
+* `CONVEYOR_FILED`: filebeat.inputs.fields 字段，支持 `,` 分割，如 CONVEYOR_FILED="app=nginx,env=dev"。默认为 "" 
+* `CONVEYOR_PATH`: 用户自定义追踪日志路径，支持 `;` 分割，"stdout" 代表采集容器的标准输出。同时也支持指定索引（仅适用于 ES 输出端），索引以 `:` 分割，`CONVEYOR_PATH="tmp-index:/tmp/logs/*.log;stdout-index:stdout"` 表示讲追踪标准日志输出以及 `/tmp/logs/*.log` 路径下的日志，前者在 ES 中的前缀为 `tmp-index` 后者为 `stdout-index`。
 
 ### 使用 Kubernetes 运行
 
