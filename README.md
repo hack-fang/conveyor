@@ -134,7 +134,7 @@ $ docker run -d -e CONVEYOR_ENABLED=true -e CONVEYOR_PATH="stdout" --name ngx ng
 
 ### 使用 Kubernetes 运行
 
-使用 DaemonSet 形式部署 conveyor，生产环境请将 /etc/filebeat/data 目录使用 PVC 挂载出来，该目录记录着 filebeat 的消费进度。
+使用 DaemonSet 形式部署 conveyor，生产环境请将 /etc/filebeat/data 目录使用 hostpath 挂载出来，该目录记录着 filebeat 的消费进度。
 ```yaml
 apiVersion: apps/v1
 kind: DaemonSet
