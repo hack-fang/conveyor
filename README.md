@@ -166,6 +166,8 @@ spec:
         - name: docker-log
           mountPath: /host
           readOnly: true
+        - name: filebeat-data
+          mountPath: /etc/filebeat/data
         - name: filebeat-config
           mountPath: /etc/filebeat/filebeat.yaml
           subPath: filebeat.yaml
@@ -176,6 +178,9 @@ spec:
       - name: docker-log
         hostPath:
           path: /
+      - name: filebeat-data
+        hostPath:
+          path: /var/filebeat-data
       - name: filebeat-config
         configMap:
           name: filebeat-config
