@@ -7,7 +7,10 @@
   <em>Transport log-entity via conveyor. Inspired by <a href="https://github.com/AliyunContainerService/log-pilot">AliyunContainerService/log-pilot</a>.</em>
 </p>
 
-> why conveyor? Highly customizable and more details...
+> why conveyor?
+* 高度可定制
+* 提供更多实现细节，使用原生 filebeat 构建
+* 支持 Elasticsearch7.x
 
 [conveyor](https://github.com/chenjiandongx/conveyor) 是采一个负责采集 docker 容器日志的组件，使用 Porter 将特定容器产生的日志输出到指定后端，如 kafka/elasticsearch/redis/...。目前 porter 有:
 
