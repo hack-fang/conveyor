@@ -40,18 +40,14 @@ require (
 package main
 
 import (
-	conveyor "github.com/chenjiandongx/conveyor/pkg"
+	"github.com/chenjiandongx/conveyor"
 )
 
 func main() {
-      // 实例化 porter
-      porter := conveyor.NewFileBeatPorter(nil)
-      // 实例化 conveyor
-      cy := conveyor.NewConveyor("")
-      // 将 porter 注册到 conveyor 中
-      cy.RegisterPorter(porter)
-      // 运行 conveyor
-      cy.Run()
+	porter := conveyor.NewFileBeatPorter(nil)
+	cy := conveyor.NewConveyor("")
+	cy.RegisterPorter(porter)
+	cy.Run()
 
 }
 ```
@@ -250,4 +246,3 @@ spec:
 ## 📃 License
 
 MIT [©chenjiandongx](https://github.com/chenjiandongx)
-

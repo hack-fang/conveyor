@@ -1,7 +1,7 @@
 package main
 
 import (
-	conveyor "github.com/chenjiandongx/conveyor/pkg"
+	"github.com/chenjiandongx/conveyor"
 )
 
 func main() {

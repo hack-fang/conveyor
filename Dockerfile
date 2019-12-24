@@ -12,6 +12,6 @@ RUN tar -C /etc -xzf ~/filebeat.tar.gz && mv /etc/filebeat-${FILEBEAT_VERSION}-l
 
 # build
 ADD . /go/src/github.com/chenjiandongx/conveyor
-RUN go build ./main.go && chmod +x ./main
+RUN go build ./cmd/main.go && chmod +x ./main
 
 ENTRYPOINT ["./main"]
