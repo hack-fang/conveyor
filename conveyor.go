@@ -2,6 +2,7 @@ package conveyor
 
 import (
 	"context"
+	"io"
 	"os"
 	"path"
 	"path/filepath"
@@ -249,7 +250,9 @@ func (c *Conveyor) watch() {
 	logrus.Info("EVENT[WATCH]: containers")
 	filter := filters.NewArgs(filters.KeyValuePair{Key: "type", Value: "container"})
 	options := types.EventsOptions{Filters: filter}
-	eventMsg, eventErr := c.dc.Events(context.TODO(), options)
+
+	ctx := context.TODO()
+	eventMsg, eventErr := c.dc.Events(ctx, options)
 
 	for {
 		select {
@@ -259,6 +262,10 @@ func (c *Conveyor) watch() {
 			}
 		case err := <-eventErr:
 			logrus.Warnf("watch event error: %+v", err)
+			if err == io.EOF || err == io.ErrUnexpectedEOF {
+				return
+			}
+			eventMsg, eventErr = c.dc.Events(ctx, options)
 		}
 	}
 }
