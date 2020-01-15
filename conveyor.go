@@ -2,17 +2,17 @@ package conveyor
 
 import (
 	"context"
-	"io"
-	"os"
-	"path"
-	"path/filepath"
-	"strings"
-
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/events"
 	"github.com/docker/docker/api/types/filters"
 	"github.com/docker/docker/client"
 	"github.com/sirupsen/logrus"
+	"io"
+	"os"
+	"path"
+	"path/filepath"
+	"strings"
+	"time"
 )
 
 const (
@@ -35,6 +35,7 @@ type Conveyor struct {
 	name string
 	// docker client instance
 	dc     *client.Client
+	dcOpts []client.Opt
 	porter Porter
 }
 
@@ -74,11 +75,16 @@ func NewConveyor(name string, dockerClientOpts ...client.Opt) *Conveyor {
 	if len(dockerClientOpts) == 0 {
 		dockerClientOpts = DefaultDockerClientOpts
 	}
-	dc, err := client.NewClientWithOpts(dockerClientOpts...)
+	dc := newDockerClient(dockerClientOpts...)
+	return &Conveyor{dc: dc, name: name, dcOpts: dockerClientOpts}
+}
+
+func newDockerClient(opts... client.Opt) *client.Client{
+	dc, err := client.NewClientWithOpts(opts...)
 	if err != nil {
 		logrus.Fatalf("new docker client error: %+v", err)
 	}
-	return &Conveyor{dc: dc, name: name}
+	return dc
 }
 
 // RegisterPorter 注册 porter
@@ -263,7 +269,8 @@ func (c *Conveyor) watch() {
 		case err := <-eventErr:
 			logrus.Warnf("watch event error: %+v", err)
 			if err == io.EOF || err == io.ErrUnexpectedEOF {
-				return
+				c.dc = newDockerClient(c.dcOpts...)
+				time.Sleep(time.Millisecond * 250)
 			}
 			eventMsg, eventErr = c.dc.Events(ctx, options)
 		}
