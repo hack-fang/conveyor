@@ -79,7 +79,7 @@ func NewConveyor(name string, dockerClientOpts ...client.Opt) *Conveyor {
 	return &Conveyor{dc: dc, name: name, dcOpts: dockerClientOpts}
 }
 
-func newDockerClient(opts... client.Opt) *client.Client{
+func newDockerClient(opts ...client.Opt) *client.Client {
 	dc, err := client.NewClientWithOpts(opts...)
 	if err != nil {
 		logrus.Fatalf("new docker client error: %+v", err)
